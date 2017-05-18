@@ -4,6 +4,8 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Rig
 
 import { db } from './db'
 
+import Login from './components/login'
+
 // react-native run-android
 // react-native log-android
 
@@ -20,35 +22,38 @@ export default class setup extends Component {
 
   render() {
     return (
-      <Container>
-        <Header>
-          <Left>
-              <Button transparent>
-                  <Icon name='menu' />
-              </Button>
-          </Left>
-          <Body>
-              <Title>Header</Title>
-          </Body>
-          <Right />
-        </Header>
-        <Content>
-            <List dataArray={this.state.items}
-                renderRow={(item) =>
-                    <ListItem>
-                        <Text>{item.front}</Text>
-                    </ListItem>
-                }>
-            </List>
-        </Content>
-        <Footer>
-            <FooterTab>
-                <Button full>
-                    <Text>Footer</Text>
-                </Button>
-            </FooterTab>
-        </Footer>
-      </Container>
-    );
+      <Login/>
+    )
+    // return (
+    //   <Container>
+    //     <Header>
+    //       <Left>
+    //           <Button transparent>
+    //               <Icon name='menu' />
+    //           </Button>
+    //       </Left>
+    //       <Body>
+    //           <Title>Header</Title>
+    //       </Body>
+    //       <Right />
+    //     </Header>
+    //     <Content>
+    //         <List dataArray={this.state.items}
+    //             renderRow={(item) =>
+    //                 <ListItem>
+    //                     <Text>{item.front}</Text>
+    //                 </ListItem>
+    //             }>
+    //         </List>
+    //     </Content>
+    //     <Footer>
+    //         <FooterTab>
+    //             <Button full>
+    //                 <Text>Footer</Text>
+    //             </Button>
+    //         </FooterTab>
+    //     </Footer>
+    //   </Container>
+    // );
   }
 }
