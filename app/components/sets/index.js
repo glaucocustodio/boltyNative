@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, View, Content, List, ListItem, Text } from 'native-base';
+import { Container, View, Content, List, ListItem, Text, Spinner } from 'native-base';
 import { db } from '../../db'
 
 export default class Sets extends Component {
@@ -7,17 +7,17 @@ export default class Sets extends Component {
     super(props);
 
     //this.setState({ items: [] });
-    this.state = { items: [] }
+    this.state = { items: [], showSpinner: true }
   }
 
   componentWillMount() {
     db.all("set", { user_id: db.currentUser._id }).then((result) => {
-      this.setState({ items: result.docs })
+      this.setState({ items: result.docs, showSpinner: false })
     })
   }
 
   static navigationOptions = {
-    title: 'Set',
+    title: 'Sets',
   }
 
   render(){
@@ -25,6 +25,7 @@ export default class Sets extends Component {
       <Container>
         <View style={{flex: 1}}>
           <Content>
+            {this.state.showSpinner && (<Spinner color='blue'/>)}
             <List dataArray={this.state.items}
                 renderRow={(item) =>
                     <ListItem>
