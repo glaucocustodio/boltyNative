@@ -1,8 +1,11 @@
 import PouchDB from 'pouchdb-react-native'
-//import PouchDB from 'pouchdb-core'
+import SQLite from 'react-native-sqlite-2'
+import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite'
 import auth from 'pouchdb-authentication'
 import find from 'pouchdb-find'
 
+const SQLiteAdapter = SQLiteAdapterFactory(SQLite)
+PouchDB.plugin(SQLiteAdapter)
 PouchDB.plugin(auth)
 PouchDB.plugin(find)
 
@@ -10,7 +13,7 @@ const options = {
   skipSetup: true,
 }
 const remoteConnection = new PouchDB("http://198.199.78.214:5984/bolty", options)
-const connection = new PouchDB('boltyLocalDB')
+const connection = new PouchDB('boltyLocalDB', {adapter: 'react-native-sqlite'})
 
 connection.sync(remoteConnection, {
   live: true,
