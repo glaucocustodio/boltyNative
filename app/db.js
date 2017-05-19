@@ -20,8 +20,22 @@ connection.sync(remoteConnection, {
   retry: true
 })
 
+connection.createIndex({
+  index: {
+    fields: ['type', 'set_id']
+  }
+}).then(function (result) {
+  // console.log(result)
+}).catch(function (err) {
+  // console.log(err)
+});
+
 class DB {
   constructor() {
+  }
+
+  allDocs() {
+    return connection.allDocs({include_docs: true})
   }
 
   loginUser(userData, onError, onSuccess) {
