@@ -20,6 +20,10 @@ export default class Sets extends Component {
     title: 'Sets',
   }
 
+  itemPressed(item){
+    this.props.navigation.navigate('Cards', { set: item });
+  }
+
   render(){
     return (
       <Container>
@@ -28,7 +32,7 @@ export default class Sets extends Component {
             {this.state.showSpinner && (<Spinner color='blue'/>)}
             <List dataArray={this.state.items}
                 renderRow={(item) =>
-                    <ListItem>
+                    <ListItem onPress={ () => { this.itemPressed(item) } }>
                         <Text>{item.name}</Text>
                     </ListItem>
                 }>
