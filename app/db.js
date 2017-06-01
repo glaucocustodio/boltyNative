@@ -15,7 +15,7 @@ const options = {
 const remoteConnection = new PouchDB("http://198.199.78.214:5984/bolty", options)
 const connection = new PouchDB('boltyLocalDB', {adapter: 'react-native-sqlite'})
 
-connection.sync(remoteConnection, {
+const syncHandler = connection.sync(remoteConnection, {
   live: true,
   retry: true
 })
@@ -51,4 +51,6 @@ class DB {
     })
   }
 }
-export let db = new DB()
+
+let db = new DB()
+export { db, syncHandler }
