@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import { Container, View, Content, Card, CardItem, Body, Text, Spinner, List, ListItem } from 'native-base';
+import { Container, View, Header, Content, Card, CardItem, Body, Item, Icon, Input, Button, Text, Spinner, List, ListItem } from 'native-base';
 import { db } from '../../db'
+import _ from 'lodash';
 
 export default class Cards extends Component {
   constructor(props) {
     super(props);
 
     this.state = { items: [], showSpinner: true }
+
+    this.onChangeTextDelayed = _.debounce((text) => {
+      this.searchTermChanged(text, this);
+    }, 400);
   }
 
   componentWillMount() {
@@ -16,14 +21,34 @@ export default class Cards extends Component {
     })
   }
 
-  static navigationOptions = {
-    title: 'Cards',
+  static navigationOptions = ({ navigation }) => ({
+    title: `Cards of ${navigation.state.params.set.name}`,
+  });
+
+  searchTermChanged(text, that){
+    that.setState({ showSpinner: true, items: [] })
+
+    db.all("card", {
+      set_id: that.props.navigation.state.params.set._id,
+      $or: [
+        { front: { $regex: `.*?${text}.*?` } },
+        { back: { $regex: `.*?${text}.*?` } }
+      ]
+    }).then((result) => {
+      that.setState({ items: result.docs, showSpinner: false })
+    })
   }
 
   render(){
     return (
       <Container>
         <View style={{flex: 1}}>
+          <Header searchBar rounded>
+            <Item>
+              <Icon name="ios-search" />
+              <Input placeholder="Search" onChangeText={this.onChangeTextDelayed} />
+            </Item>
+          </Header>
           <Content>
             {this.state.showSpinner && (<Spinner color='blue'/>)}
             <List dataArray={this.state.items}
